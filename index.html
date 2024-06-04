@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore the adventures, thoughts, and experiences of Pilar, a nature enthusiast, as she wanders through the serene forests.">
+    <meta name="keywords" content="Wald Einsamkeit, Blog, nature, forests, adventures, Pilar">
+    <meta name="author" content="Pilar">
+    <meta property="og:title" content="Wald Einsamkeit Blog">
+    <meta property="og:description" content="Explore the adventures, thoughts, and experiences of Pilar, a nature enthusiast, as she wanders through the serene forests.">
+    <meta property="og:image" content="profile.jpg">
+    <meta property="og:url" content="http://yourwebsite.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Wald Einsamkeit Blog">
+    <meta name="twitter:description" content="Explore the adventures, thoughts, and experiences of Pilar, a nature enthusiast, as she wanders through the serene forests.">
+    <meta name="twitter:image" content="profile.jpg">
+    <title>Wald Einsamkeit Blog</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Tahoma, "Trebuchet MS", sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        nav {
+            background-color: #333;
+            color: #e6e6e6;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        nav h2 {
+            color: #9ccc65;
+            font-size: 20px;
+            margin: 0 0 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            margin: 10px 0;
+        }
+        nav ul li a {
+            color: #a5d6a7;
+            text-decoration: none;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+        main {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            box-sizing: border-box;
+        }
+        .intro {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .intro img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+        .intro div {
+            max-width: 600px;
+        }
+        .intro h1 {
+            color: #333;
+            margin: 0 0 10px;
+            font-size: 24px;
+        }
+        .intro p {
+            line-height: 1.6;
+            margin: 0;
+        }
+        article {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+        article h1 {
+            color: #333;
+            font-size: 20px;
+            margin: 0 0 10px;
+        }
+        article p {
+            line-height: 1.6;
+            margin: 0 0 10px;
+        }
+        article img {
+            max-height: 230px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        @media (min-width: 768px) {
+            body {
+                flex-direction: row;
+            }
+            nav {
+                width: 250px;
+                height: 100vh;
+                position: fixed;
+            }
+            main {
+                margin-left: 250px;
+                height: 100vh;
+                overflow-y: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h2>Blog Navigation</h2>
+        <ul id="nav-list">
+            <!-- Navigation items will be inserted here by JavaScript -->
+        </ul>
+    </nav>
+    <main>
+        <div id="intro-container"></div>
+        <section id="blog-content">
+            <!-- Blog articles will be inserted here by JavaScript -->
+        </section>
+    </main>
+
+    <script>
+        const posts = [
+            { date: '2024-06-01', title: 'A Walk in the Forest', file: 'post1.html' },
+            { date: '2024-05-28', title: 'Misty Mornings', file: 'post2.html' },
+            { date: '2024-05-12', title: 'Golden Sunsets', file: 'post3.html' },
+            
+            // Add more posts as needed
+        ];
+
+        function loadPosts() {
+            const navList = document.getElementById('nav-list');
+            const blogContent = document.getElementById('blog-content');
+
+            posts.forEach(post => {
+                // Create navigation item
+                console.debug("post:", post.title);
+                const navItem = document.createElement('li');
+                const navLink = document.createElement('a');
+                navLink.href = `#${post.title.replace(/\s+/g, '-').toLowerCase()}`;
+                navLink.innerHTML = `${post.date} - ${post.title}`;
+                navItem.appendChild(navLink);
+                navList.appendChild(navItem);
+
+                // Load blog post
+                console.debug("post:", post.file);
+                loadContent(post.file, blogContent);
+            });
+        }
+
+        function loadContent(file, container) {
+            fetch(file)
+                .then(response => response.text())
+                .then(data => {
+                    const postContainer = document.createElement('div');
+                    postContainer.innerHTML = data;
+                    container.appendChild(postContainer);
+                })
+                .catch(error => console.error('Error loading content:', error));
+        }
+
+        // Initial load
+        loadContent('intro.html', document.getElementById('intro-container'));
+        loadPosts();
+    </script>
+</body>
+</html>
